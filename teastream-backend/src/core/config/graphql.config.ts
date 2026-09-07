@@ -9,7 +9,9 @@ export function getGraphQLConfig(
 	configService: ConfigService
 ): ApolloDriverConfig {
 	return {
-		playground: isDev(configService),
+		playground: isDev(configService) && {
+			settings: { 'request.credentials': 'include' }
+		},
 		path: configService.getOrThrow<string>('GRAPHQL_PREFIX'),
 		autoSchemaFile: join(process.cwd(), 'src/core/graphql/shema.gql'),
 		sortSchema: true,
