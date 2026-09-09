@@ -2,12 +2,13 @@ import DeviceDetector from 'device-detector-js'
 import type { Request } from 'express'
 import { lookup } from 'geoip-lite'
 import * as countries from 'i18n-iso-countries'
+import enLocale from 'i18n-iso-countries/langs/en.json'
 
 import { SessionMetadata } from '../types/sesion-metadata.types'
 
 import { IS_DEV_ENV } from './is-dev.util'
 
-countries.registerLocale(require('i18n-iso-countries/langs/en.json'))
+countries.registerLocale(enLocale)
 
 export function getSessionMetadata(
 	req: Request,

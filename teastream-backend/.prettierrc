@@ -12,7 +12,8 @@
   "importOrderParserPlugins": [
     "classProperties",
     "decorators-legacy",
-    "typescript"
+    "typescript",
+    "jsx"
   ],
   "importOrder": ["<THIRD_PARTY_MODULES>", "^@/(.*)$", "^../(.*)", "^./(.*)"],
   "plugins": ["@trivago/prettier-plugin-sort-imports"]
