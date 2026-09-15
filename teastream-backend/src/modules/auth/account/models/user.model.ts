@@ -25,6 +25,9 @@ export class UserModel implements User {
 	@Field(() => Boolean)
 	public isEmailVerified: boolean
 
+	@Field(() => Boolean)
+	public isDeactivated: boolean
+
 	@Field(() => String, { nullable: true })
 	public avatar: string
 

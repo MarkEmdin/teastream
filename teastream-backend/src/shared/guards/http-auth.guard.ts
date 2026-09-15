@@ -4,18 +4,16 @@ import {
 	Injectable,
 	UnauthorizedException
 } from '@nestjs/common'
-import { GqlExecutionContext } from '@nestjs/graphql'
+import type { Request } from 'express'
 
 import { PrismaService } from '@/src/core/prisma/prisma.service'
-import type { GqlContext } from '@/src/shared/types/context.types'
 
 @Injectable()
-export class GqlAuthGuard implements CanActivate {
+export class HttpAuthGuard implements CanActivate {
 	public constructor(private readonly prismaService: PrismaService) {}
 
 	public async canActivate(context: ExecutionContext): Promise<boolean> {
-		const ctx = GqlExecutionContext.create(context)
-		const request = ctx.getContext<GqlContext>().req
+		const request = context.switchToHttp().getRequest<Request>()
 
 		if (typeof request.session.userId === 'undefined') {
 			throw new UnauthorizedException(' user is unauthorized')

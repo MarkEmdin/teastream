@@ -84,7 +84,7 @@ export class SessionService {
 	public async login(req: Request, input: LoginInput, userAgent: string) {
 		const { login, password } = input
 
-		const user = await this.prismaService.user.findFirst({
+		let user = await this.prismaService.user.findFirst({
 			where: {
 				OR: [
 					{ username: { equals: login } },
@@ -109,6 +109,17 @@ export class SessionService {
 			throw new BadRequestException(
 				'Check yours email, account was not verified'
 			)
+		}
+
+		if (user.isDeactivated) {
+			user = await this.prismaService.user.update({
+				where: {
+					id: user.id
+				},
+				data: {
+					isDeactivated: false
+				}
+			})
 		}
 
 		const metadata = getSessionMetadata(req, userAgent)

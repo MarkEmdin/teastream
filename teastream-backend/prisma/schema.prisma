@@ -21,6 +21,8 @@ model User {
 
   isEmailVerified Boolean @default(false) @map("is_email_verified")
 
+  isDeactivated Boolean @default(false) @map("is_deactivated")
+
   avatar String?
   bio    String?
 
@@ -50,6 +52,8 @@ model Token {
 
 enum TokenType {
   EMAIL_VERIFY
+  PASSWORD_RESET
+  DEACTIVATE_ACCOUNT
 
   @@map("token_types")
 }

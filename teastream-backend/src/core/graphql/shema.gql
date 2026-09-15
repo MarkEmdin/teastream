@@ -2,6 +2,10 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input ConfirmDeactivationInput {
+  token: String!
+}
+
 input CreateUserInput {
   email: String!
   password: String!
@@ -33,16 +37,31 @@ input LoginInput {
 
 type Mutation {
   clearSessionCookie: Boolean!
+  confirmDeactivation(data: ConfirmDeactivationInput!): Boolean!
   createUser(data: CreateUserInput!): Boolean!
   loginUser(data: LoginInput!): UserModel!
   logoutUser: Boolean!
+  newPassword(data: NewPasswordInput!): UserModel!
   removeSession(id: String!): Boolean!
+  requestDeactivation: Boolean!
+  resetPassword(data: ResetPasswordInput!): Boolean!
+  updateProfile(data: UpdateProfileInput!): UserModel!
+  verifyAccount(data: VerificationInput!): UserModel!
+}
+
+input NewPasswordInput {
+  password: String!
+  token: String!
 }
 
 type Query {
   findCurrentSession: SessionModel!
   findProfile: UserModel!
   findSessionByUser: [SessionModel!]!
+}
+
+input ResetPasswordInput {
+  email: String!
 }
 
 type SessionMetadataModel {
@@ -58,6 +77,13 @@ type SessionModel {
   userId: String!
 }
 
+input UpdateProfileInput {
+  bio: String
+  displayName: String
+  email: String
+  username: String
+}
+
 type UserModel {
   avatar: String
   bio: String
@@ -65,7 +91,14 @@ type UserModel {
   displayName: String!
   email: String!
   id: ID!
+  isDeactivated: Boolean!
+  isEmailVerified: Boolean!
+  isVerified: Boolean!
   password: String!
   updatedAt: DateTime!
   username: String!
+}
+
+input VerificationInput {
+  token: String!
 }

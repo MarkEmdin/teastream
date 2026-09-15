@@ -4,6 +4,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 import { GraphQLModule } from '@nestjs/graphql'
 
 import { AccountModule } from '../modules/auth/account/account.module'
+import { DeactivationModule } from '../modules/auth/deactivation/deactivation.module'
+import { PasswordRecoveryModule } from '../modules/auth/password-recovery/password-recovery.module'
 import { SessionModule } from '../modules/auth/session/session.module'
 import { VerificationModule } from '../modules/auth/verification/verification.module'
 import { MailModule } from '../modules/libs/mail/mail.module'
@@ -31,7 +33,9 @@ import { RedisModule } from './redis/redis.module'
 		MailModule,
 		AccountModule,
 		SessionModule,
-		VerificationModule
+		VerificationModule,
+		PasswordRecoveryModule,
+		DeactivationModule
 	]
 })
 export class CoreModule {}

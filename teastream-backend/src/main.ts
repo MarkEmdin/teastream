@@ -1,20 +1,32 @@
 import { ValidationPipe } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { NestFactory } from '@nestjs/core'
+import { NestExpressApplication } from '@nestjs/platform-express'
 import RedisStore from 'connect-redis'
 import cookieParser from 'cookie-parser'
 import session from 'express-session'
+import { mkdirSync } from 'fs'
 
 import { CoreModule } from './core/core.module'
 import { RedisService } from './core/redis/redis.service'
+import {
+	AVATAR_UPLOAD_DIR,
+	UPLOAD_DIR
+} from './shared/utils/avatar-storage.util'
 import { ms, StringValue } from './shared/utils/ms.util'
 import { parseBoolean } from './shared/utils/parse-boolean.util'
 
 async function bootstrap() {
-	const app = await NestFactory.create(CoreModule)
+	mkdirSync(AVATAR_UPLOAD_DIR, { recursive: true })
+
+	const app = await NestFactory.create<NestExpressApplication>(CoreModule)
 
 	const config = app.get(ConfigService)
 	const redis = app.get(RedisService)
+
+	app.useStaticAssets(UPLOAD_DIR, {
+		prefix: '/uploads/'
+	})
 
 	app.use(cookieParser(config.getOrThrow<string>('COOKIE_SECRET')))
 

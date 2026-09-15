@@ -6,6 +6,7 @@ import { Authorized } from '@/src/shared/decorators/authorized.decorator'
 
 import { AccountService } from './account.service'
 import { CreateUserInput } from './inputs/create-user.input'
+import { UpdateProfileInput } from './inputs/update-profile.input'
 import { UserModel } from './models/user.model'
 
 @Resolver('Account')
@@ -21,5 +22,14 @@ export class AccountResolver {
 	@Mutation(() => Boolean, { name: 'createUser' })
 	public async create(@Args('data') input: CreateUserInput) {
 		return this.accountService.create(input)
+	}
+
+	@Authorization()
+	@Mutation(() => UserModel, { name: 'updateProfile' })
+	public async updateProfile(
+		@Authorized('id') id: string,
+		@Args('data') input: UpdateProfileInput
+	) {
+		return this.accountService.updateProfile(id, input)
 	}
 }
