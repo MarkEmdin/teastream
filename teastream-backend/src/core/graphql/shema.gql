@@ -38,14 +38,18 @@ input LoginInput {
 type Mutation {
   clearSessionCookie: Boolean!
   confirmDeactivation(data: ConfirmDeactivationInput!): Boolean!
+  createSocialLink(data: SocialLinkInput!): Boolean!
   createUser(data: CreateUserInput!): Boolean!
   loginUser(data: LoginInput!): UserModel!
   logoutUser: Boolean!
   newPassword(data: NewPasswordInput!): UserModel!
   removeSession(id: String!): Boolean!
+  removeSocialLink(id: String!): Boolean!
+  reorderSocialLinks(data: [ReorderSocialLinkInput!]!): Boolean!
   requestDeactivation: Boolean!
   resetPassword(data: ResetPasswordInput!): Boolean!
   updateProfile(data: UpdateProfileInput!): UserModel!
+  updateSocialLink(data: SocialLinkInput!, id: String!): Boolean!
   verifyAccount(data: VerificationInput!): UserModel!
 }
 
@@ -58,6 +62,12 @@ type Query {
   findCurrentSession: SessionModel!
   findProfile: UserModel!
   findSessionByUser: [SessionModel!]!
+  findSocialLinks: [SocialLinkModel!]!
+}
+
+input ReorderSocialLinkInput {
+  id: String!
+  position: Int!
 }
 
 input ResetPasswordInput {
@@ -74,6 +84,21 @@ type SessionModel {
   createdAt: String!
   id: ID!
   metadata: SessionMetadataModel!
+  userId: String!
+}
+
+input SocialLinkInput {
+  title: String!
+  url: String!
+}
+
+type SocialLinkModel {
+  createdAt: DateTime!
+  id: ID!
+  position: Int!
+  title: String!
+  updatedAt: DateTime!
+  url: String!
   userId: String!
 }
 
@@ -95,6 +120,7 @@ type UserModel {
   isEmailVerified: Boolean!
   isVerified: Boolean!
   password: String!
+  socialLinks: [SocialLinkModel!]!
   updatedAt: DateTime!
   username: String!
 }

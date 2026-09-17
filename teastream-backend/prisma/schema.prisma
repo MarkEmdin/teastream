@@ -26,12 +26,29 @@ model User {
   avatar String?
   bio    String?
 
-  tokens Token[]
+  tokens      Token[]
+  socialLinks SocialLink[]
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("users")
+}
+
+model SocialLink {
+  id String @id @default(uuid())
+
+  title    String
+  url      String
+  position Int
+
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@map("social_links")
 }
 
 model Token {
